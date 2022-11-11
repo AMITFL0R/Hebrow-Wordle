@@ -1,0 +1,70 @@
+div[id="title"]{
+    font-size: 40px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: underline;
+    font-family: sans-serif;
+}
+div[id="wordleGame"]{
+    width: 500px;
+    height: 600px;
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
+    background-color: yellow;
+}
+div[class="board"]{
+    width: 380px;
+    height: 400px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 10px;
+    background-color: aqua;
+}
+div[class="keyboard"]{
+    width: 480px;
+    height: 180px;
+    background-color: gray;
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 10px;
+}
+
+button[class="keyboard_letter"]{
+    font-size: 35px;
+    font-family: Calibri;
+    font-weight: bold;
+    height: 50px;
+    margin:4px 4px 0 0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+div[class="row"]{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 5px;
+    margin:6px 6px 0 0  ;
+    justify-items: center;
+    
+}
+div[class="square"]{
+    width: 50px;
+    height: 50px;
+    background-color: aquamarine;
+    font-size: 30px;
+}
+
+
+
+
+
+/*div{*/
+/*    color: red;*/
+/*    font-size: 30px ;*/
+/*    width: fit-content;*/
+/*    height: fit-content;*/
+/*    background-color: aqua;*/
+
+
+/*}*/
