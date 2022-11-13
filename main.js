@@ -30,4 +30,13 @@ let x=document.getElementsByClassName('square');
 
 }
 
+function randomVocabulary() {
+    document.getElementById('vocabulary');
+    const words = ["מקלדת", "מקלחת", "שולחן", "כביסה", "מנעול", "בקבוק", "מדפסת",
+        "רמקול", "חולצה", "מדבקה","קרפדה","דולפין","אשדוד",
+        "מברשת","משאית","מזרון","מגירה","שמיכה", "לפטופ", "מנורה"]
+    let randomIndex = Math.ceil(Math.random() * 20);
+    let word=words[randomIndex];
+    alert(word)
+}
 
