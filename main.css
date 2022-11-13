@@ -21,7 +21,7 @@ div[class="board"]{
     margin-top: 10px;
     background-color: aqua;
 }
-div[class="keyboard"]{
+div[id="keyboard"]{
     width: 480px;
     height: 180px;
     background-color: gray;

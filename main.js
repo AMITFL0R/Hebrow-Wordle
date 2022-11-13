@@ -1,18 +1,33 @@
-function keyboardAccess(){
+function keyboardListener(){
     document.addEventListener('keypress',(event)=>{
         let name=event.key;
-        let code=event.code;
-        alert(name+" +"+code)
+        doSomething(name);
     })
 }
-function fill(){
-
+function buttonListener(){
+    let keyboard = document.getElementById('keyboard')
+    keyboard.addEventListener('click', (event) => {
+        let isButton = event.target.nodeName === 'BUTTON';
+        if (!isButton) {
+            return;
+        }
+        doSomething(event.target.innerHTML);
+    })
 }
 
-function doSomething(){
-    let y= document.getElementsByClassName("keyboard_letter");
-    let x=document.getElementsByClassName("square");
-    x[1].innerHTML=y[1].getAttribute("data-key");
+
+function doSomething(char){
+let x=document.getElementsByClassName('square');
+    for (let i = 0; i < x.length; i++) {
+        if (x[i].getAttribute('data-state')==='empty'){
+            x[i].innerHTML=char;
+            x[i].setAttribute('data-state',char);
+            return;
+        }
+    }
+
+
+
 }
 
 
