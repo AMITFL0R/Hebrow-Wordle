@@ -53,18 +53,6 @@ div[class="square"]{
     height: 50px;
     background-color: aquamarine;
     font-size: 30px;
+    margin-top: 10px;
+    border-radius: 10px;
 }
-
-
-
-
-
-/*div{*/
-/*    color: red;*/
-/*    font-size: 30px ;*/
-/*    width: fit-content;*/
-/*    height: fit-content;*/
-/*    background-color: aqua;*/
-
-
-/*}*/
