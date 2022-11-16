@@ -31,7 +31,7 @@ function randomVocabulary() {
     const words = ["מקלדת", "מקלחת", "שולחן", "כביסה", "מנעול", "בקבוק", "מדפסת",
         "רמקול", "חולצה", "מדבקה","קרפדה","דולפין","אשדוד",
         "מברשת","משאית","מזרון","מגירה","שמיכה", "לפטופ", "מנורה"]
-    let randomIndex = Math.ceil(Math.random() * 20);
+    let randomIndex = Math.ceil(Math.random() * 19);
     let word=words[randomIndex];
     alert(word)
 }
@@ -49,7 +49,24 @@ function gameLoop(){
     randomVocabulary();
     for (let i = 0; i < 6; i++) {
         level(i+1);
+
     }
 
+
+
+}
+function checkFullRow (levelNumber){
+    let numberOfLetters = document.getElementById("row"+levelNumber).children[4].innerHTML;
+    if (numberOfLetters=="5"){
+        alert("guess is shorter than 5 letters");
+    }else {
+        checkAnswer();
+        levelNumber++;
+        level(levelNumber)
+
+}
+  function checkAnswer (){
+
+      }
 }
 
