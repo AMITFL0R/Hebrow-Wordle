@@ -1,33 +1,29 @@
-function keyboardListener(){
+function keyboardListener(cells){
     document.addEventListener('keypress',(event)=>{
         let name=event.key;
-        doSomething(name);
+        insertChar(name,cells);
     })
 }
-function buttonListener(){
+function buttonListener(cells){
     let keyboard = document.getElementById('keyboard')
     keyboard.addEventListener('click', (event) => {
         let isButton = event.target.nodeName === 'BUTTON';
         if (!isButton) {
             return;
         }
-        doSomething(event.target.innerHTML);
+        insertChar(event.target.innerHTML,cells);
     })
 }
 
 
-function doSomething(char){
-let x=document.getElementsByClassName('square');
-    for (let i = 0; i < x.length; i++) {
-        if (x[i].getAttribute('data-state')==='empty'){
-            x[i].innerHTML=char;
-            x[i].setAttribute('data-state',char);
+function insertChar(char,cells){
+    for (let i = 0; i < cells.length; i++) {
+        if (cells[i].getAttribute('data-state')==='empty'){
+            cells[i].innerHTML=char;
+            cells[i].setAttribute('data-state',char);
             return;
         }
     }
-
-
-
 }
 
 function randomVocabulary() {
@@ -38,5 +34,22 @@ function randomVocabulary() {
     let randomIndex = Math.ceil(Math.random() * 20);
     let word=words[randomIndex];
     alert(word)
+}
+
+function level(levelNumber){
+    const level=document.getElementById("row"+levelNumber);
+    const cells=level.children;
+    if (level.getAttribute('data-state')==='playing'){
+        keyboardListener(cells);
+        buttonListener(cells);
+    }
+
+}
+function gameLoop(){
+    randomVocabulary();
+    for (let i = 0; i < 6; i++) {
+        level(i+1);
+    }
+
 }
 
