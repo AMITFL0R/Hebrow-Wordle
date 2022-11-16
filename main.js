@@ -1,6 +1,12 @@
+
+const word=randomVocabulary();
+let levell=1;
+
+
 function keyboardListener(cells){
     document.addEventListener('keypress',(event)=>{
         let name=event.key;
+        if (name!=="Enter")
         insertChar(name,cells);
     })
 }
@@ -11,6 +17,7 @@ function buttonListener(cells){
         if (!isButton) {
             return;
         }
+        if (event.target.innerHTML!=="Enter"&&event.target.innerHTML!=="Delete")
         insertChar(event.target.innerHTML,cells);
     })
 }
@@ -31,25 +38,61 @@ function randomVocabulary() {
     const words = ["מקלדת", "מקלחת", "שולחן", "כביסה", "מנעול", "בקבוק", "מדפסת",
         "רמקול", "חולצה", "מדבקה","קרפדה","דולפין","אשדוד",
         "מברשת","משאית","מזרון","מגירה","שמיכה", "לפטופ", "מנורה"]
-    let randomIndex = Math.ceil(Math.random() * 20);
+    let randomIndex = Math.ceil(Math.random() * 19);
     let word=words[randomIndex];
-    alert(word)
+    return word;
+
 }
 
-function level(levelNumber){
-    const level=document.getElementById("row"+levelNumber);
+function level(){
+    const level=document.querySelector("div[data-state=\"playing\"]");
     const cells=level.children;
-    if (level.getAttribute('data-state')==='playing'){
-        keyboardListener(cells);
-        buttonListener(cells);
-    }
+    alert(cells.length);
+    keyboardListener(cells);
+    buttonListener(cells);
 
 }
 function gameLoop(){
-    randomVocabulary();
-    for (let i = 0; i < 6; i++) {
-        level(i+1);
-    }
+alert(word);
+    level();
 
 }
+function checkLength(){
+    const level=document.querySelector("div[data-state=\"playing\"]").children[4];
+    if (level.getAttribute('data-state')==='empty'){
+        return false;
+    }
+    return true;
+}
+
+function checkGuess(){
+    if (checkLength()){
+        const wordLetters=word.split("");
+        const guessLetters=document.querySelector("div[data-state=\"playing\"]").children;
+        let flag=true;
+        for (let i = 0; i < wordLetters.length; i++) {
+            if (wordLetters[i]!==guessLetters[i].innerHTML){
+                flag=false;
+            }
+        }
+        if (flag===false){
+            document.querySelector("div[data-state=\"playing\"]").setAttribute('data-state',"finish");
+            levell++;
+            document.getElementById("row"+levell).setAttribute('data-state',"playing");
+            level()
+        }
+        alert(flag);
+    }
+}
+function deleteLetter(){
+    let y=document.querySelector("div[data-state=\"playing\"]").children;
+    for (let i = 0; i < y.length; i++) {
+        if (i===4||y[i].getAttribute('data-state')!=='empty'&&y[i+1].getAttribute('data-state')==='empty'){
+        y[i].setAttribute('data-state','empty')
+        y[i].innerHTML="";
+            return;
+        }
+    }
+}
+
 
