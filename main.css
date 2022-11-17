@@ -6,12 +6,12 @@ div[id="title"]{
     font-family: sans-serif;
 }
 div[id="wordleGame"]{
-    width: 500px;
+    width: 500px;.
     height: 600px;
     text-align: center;
     margin-right: auto;
     margin-left: auto;
-    background-color: yellow;
+    background-color: white;
 }
 div[class="board"]{
     width: 380px;
@@ -19,12 +19,12 @@ div[class="board"]{
     margin-right: auto;
     margin-left: auto;
     margin-top: 10px;
-    background-color: aqua;
+    background-color: white;
 }
 div[id="keyboard"]{
     width: 480px;
     height: 180px;
-    background-color: gray;
+    background-color: white;
     text-align: center;
     margin-right: auto;
     margin-left: auto;
@@ -40,6 +40,7 @@ button[class="keyboard_letter"]{
     border-radius: 4px;
     cursor: pointer;
 }
+
 div[class="row"]{
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -52,6 +53,32 @@ div[class="square"]{
     width: 50px;
     height: 50px;
     background-color: aquamarine;
+    font-size: 30px;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+div[class="green"]{
+    width: 50px;
+    height: 50px;
+    background-color: forestgreen;
+    font-size: 30px;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+div[class="yellow"]{
+    width: 50px;
+    height: 50px;
+    background-color: darkgoldenrod;
+    font-size: 30px;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+div[class="gray"]{
+    width: 50px;
+    height: 50px;
+    background-color: gray;
     font-size: 30px;
     margin-top: 10px;
     border-radius: 10px;

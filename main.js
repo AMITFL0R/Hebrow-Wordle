@@ -35,9 +35,9 @@ function insertChar(char,cells){
 
 function randomVocabulary() {
     document.getElementById('vocabulary');
-    const words = ["מקלדת", "מקלחת", "שולחן", "כביסה", "מנעול", "בקבוק", "מדפסת",
-        "רמקול", "חולצה", "מדבקה","קרפדה","דולפין","אשדוד",
-        "מברשת","משאית","מזרון","מגירה","שמיכה", "לפטופ", "מנורה"]
+    const words = ["מקלדת", "מקלחת", "שולחן", "כביסה", "מנעול", "שריפה", "מדפסת",
+        "רמקול", "חולצה", "מדבקה","קרפדה","אכזבה","מעטפה",
+        "מברשת","משאית","מזרון","מגירה","שמיכה", "חשיבה", "מנורה"]
     let randomIndex = Math.ceil(Math.random() * 19);
     let word=words[randomIndex];
     return word;
@@ -47,7 +47,6 @@ function randomVocabulary() {
 function level(){
     const level=document.querySelector("div[data-state=\"playing\"]");
     const cells=level.children;
-    alert(cells.length);
     keyboardListener(cells);
     buttonListener(cells);
 
@@ -69,11 +68,25 @@ function checkGuess(){
     if (checkLength()){
         const wordLetters=word.split("");
         const guessLetters=document.querySelector("div[data-state=\"playing\"]").children;
+        let j =0;
         let flag=true;
         for (let i = 0; i < wordLetters.length; i++) {
-            if (wordLetters[i]!==guessLetters[i].innerHTML){
+            if (checkIfLetterExistInWord (guessLetters[j].innerHTML , wordLetters)){
+                if (wordLetters[i]===guessLetters[j].innerHTML){
+                    guessLetters[j].setAttribute('class','green');
+                    j++;
+                }else {
+                    guessLetters[j].setAttribute('class','yellow');
+                    flag=false;
+                    j++;
+                }
+
+            } else {
+                guessLetters[j].setAttribute('class','gray');
                 flag=false;
+                j++;
             }
+
         }
         if (flag===false){
             document.querySelector("div[data-state=\"playing\"]").setAttribute('data-state',"finish");
@@ -82,8 +95,26 @@ function checkGuess(){
             level()
         }
         alert(flag);
+    }else {
+        alert("guess is shorter than five letters")
     }
 }
+
+
+function checkIfLetterExistInWord(letter,wordsLetter){
+    let flag = false;
+    for (let i =0;  i<wordsLetter.length; i++){
+        if (wordsLetter[i]===letter){
+            flag=true;
+        }
+    }
+    return flag;
+
+}
+
+
+
+
 function deleteLetter(){
     let y=document.querySelector("div[data-state=\"playing\"]").children;
     for (let i = 0; i < y.length; i++) {
