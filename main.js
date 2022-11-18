@@ -1,34 +1,49 @@
 
 const word=randomVocabulary();
-let levell=1;
+let levelNumber=1;
 
 
-function keyboardListener(cells){
-    document.addEventListener('keypress',(event)=>{
-        let name=event.key;
-        if (name!=="Enter")
-        insertChar(name,cells);
-    })
+// function keyboardListener(){
+//     document.addEventListener('keydown', function(event) {
+//         const key = event.key; // const {key} = event; ES6+
+//         if (key === "Backspace") {
+//             // Do something
+//             deleteLetter();
+//         }
+//     });
+//     document.addEventListener('keypress',(event)=>{
+//         let name=event.key;
+//         if (name==="Enter"){
+//             checkGuess();
+//         }else {
+//             insertChar(name);
+//         }
+//     })
+// }
+function buttonListener(){
+    const keyboard=document.getElementsByClassName("keyboard_letter");
+    for (let i = 0; i < keyboard.length; i++) {
+        keyboard[i].addEventListener('click',(event)=>{
+            if (event.target.innerHTML==="Enter"){
+                        checkGuess();
+                    }else if (event.target.innerHTML==="Delete"){
+                        deleteLetter();
+                    }else {
+                         insertChar(event.target.innerHTML);
+
+                    }
+        })
+    }
 }
-function buttonListener(cells){
-    let keyboard = document.getElementById('keyboard')
-    keyboard.addEventListener('click', (event) => {
-        let isButton = event.target.nodeName === 'BUTTON';
-        if (!isButton) {
-            return;
-        }
-        if (event.target.innerHTML!=="Enter"&&event.target.innerHTML!=="Delete")
-        insertChar(event.target.innerHTML,cells);
-    })
-}
 
 
-function insertChar(char,cells){
+function insertChar(char){
+    const cells=level();
     for (let i = 0; i < cells.length; i++) {
         if (cells[i].getAttribute('data-state')==='empty'){
             cells[i].innerHTML=char;
             cells[i].setAttribute('data-state',char);
-            return;
+            break;
         }
     }
 }
@@ -47,17 +62,16 @@ function randomVocabulary() {
 function level(){
     const level=document.querySelector("div[data-state=\"playing\"]");
     const cells=level.children;
-    keyboardListener(cells);
-    buttonListener(cells);
-
+    return cells;
 }
 function gameLoop(){
 alert(word);
-    level();
+buttonListener();
+//keyboardListener();
 
 }
 function checkLength(){
-    const level=document.querySelector("div[data-state=\"playing\"]").children[4];
+    const level= document.querySelector("div[data-state=\"playing\"]").children[4];
     if (level.getAttribute('data-state')==='empty'){
         return false;
     }
@@ -70,19 +84,18 @@ function checkGuess(){
         const guessLetters=document.querySelector("div[data-state=\"playing\"]").children;
         let j =0;
         let flag=true;
-        for (let i = 0; i < wordLetters.length; i++) {
+        for (let i = 0; i < guessLetters.length; i++) {
             if (checkIfLetterExistInWord (guessLetters[j].innerHTML , wordLetters)){
                 if (wordLetters[i]===guessLetters[j].innerHTML){
-                    guessLetters[j].setAttribute('class','green');
+                    guessLetters[j].setAttribute('data-color','green');
                     j++;
                 }else {
-                    guessLetters[j].setAttribute('class','yellow');
+                    guessLetters[j].setAttribute('data-color','yellow');
                     flag=false;
                     j++;
                 }
-
             } else {
-                guessLetters[j].setAttribute('class','gray');
+                guessLetters[j].setAttribute('data-color','gray');
                 flag=false;
                 j++;
             }
@@ -90,13 +103,29 @@ function checkGuess(){
         }
         if (flag===false){
             document.querySelector("div[data-state=\"playing\"]").setAttribute('data-state',"finish");
-            levell++;
-            document.getElementById("row"+levell).setAttribute('data-state',"playing");
-            level()
+            levelNumber++;
+            if (levelNumber>6){
+                alert("חלש אחי!");
+                document.location.reload();
+            }else {
+                document.getElementById("row"+levelNumber).setAttribute('data-state',"playing");
+            }
+
+        }else {
+            alert("ניצחת!");
+            document.location.reload();
         }
-        alert(flag);
+
+
     }else {
         alert("guess is shorter than five letters")
+    }
+}
+function paintKeyboard(char){
+    const keyboard=document.getElementsByClassName("keyboard_letter");
+    for (let i = 0; i <keyboard.length ; i++) {
+        if (keyboard[i].innerHTML===char);
+        keyboard[i].setAttribute('data-color','green');
     }
 }
 
