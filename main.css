@@ -60,6 +60,9 @@ div[class="square"]{
 div[data-color="green"]{
     background-color: forestgreen;
 }
+/*button[data-color="green"]{*/
+/*    background-color: forestgreen;*/
+/*}*/
 
 div[data-color="yellow"]{
     background-color: darkgoldenrod;
