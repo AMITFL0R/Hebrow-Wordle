@@ -5,6 +5,16 @@ div[id="title"]{
     text-decoration: underline;
     font-family: sans-serif;
 }
+
+div[id="AIUA"] {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: left;
+    text-decoration: cadetblue;
+    font-family: sans-serif;
+}
+
+
 div[id="wordleGame"]{
     width: 500px;.
     height: 600px;
@@ -13,6 +23,20 @@ div[id="wordleGame"]{
     margin-left: auto;
     background-color: white;
 }
+
+button[data-color="green"]{
+    background-color: forestgreen;
+}
+
+button[data-color="yellow"]{
+    background-color: darkgoldenrod;
+}
+
+button[data-color="gray"]{
+    background-color: gray;
+}
+
+
 div[class="board"]{
     width: 380px;
     height: 400px;

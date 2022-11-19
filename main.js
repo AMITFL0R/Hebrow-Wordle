@@ -83,19 +83,41 @@ function checkGuess() {
     if (checkLength()) {
         const wordLetters = word.split("");
         const guessLetters = document.querySelector("div[data-state=\"playing\"]").children;
-        let j = 0;
+        let tempGuessLetters = new Array();
+
         let flag = true;
+        let tempWordLetters = new Array();
         for (let i = 0; i < wordLetters.length; i++) {
-            if (guessLetters[i].innerHTML === wordLetters[i]) {
+            if (guessLetters[i].innerHTML=== wordLetters[i]){
                 guessLetters[i].setAttribute('data-color', 'green');
-                j++;
-            } else if (checkIfLetterExistInWord(guessLetters[i].innerHTML, wordLetters, j)) {
-                guessLetters[i].setAttribute('data-color', 'yellow');
-                j++;
-                flag = false;
-            } else {
-                guessLetters[i].setAttribute('data-color', 'gray');
-                flag = false;
+                let greenButton=getFitButton(guessLetters[i].innerHTML);
+                greenButton.setAttribute('data-color','green');
+            }else {
+                tempWordLetters.push(wordLetters[i]);
+                tempGuessLetters.push(guessLetters[i]);
+            }
+        }
+       if (tempGuessLetters.length>0) {
+            for (let i = 0; i < tempGuessLetters.length; i++) {
+                if (checkIfLetterExistInWord(tempGuessLetters[i].innerHTML, tempWordLetters)) {
+                    tempGuessLetters[i].setAttribute('data-color', 'yellow');
+                    let yellowButton=getFitButton(tempGuessLetters[i].innerHTML);
+                    if (!isGreen(yellowButton))
+                    yellowButton.setAttribute('data-color','yellow');
+                    flag = false;
+                  //  tempGuessLetters=removeIndexFromArray(tempGuessLetters,tempGuessLetters[i]);
+                    tempWordLetters=removeIndexFromArray(tempWordLetters,tempGuessLetters[i].innerHTML);
+
+
+                } else {
+                    tempGuessLetters[i].setAttribute('data-color', 'gray');
+                    let grayButton=getFitButton(tempGuessLetters[i].innerHTML);
+                    if (!isGreen(grayButton))
+                    grayButton.setAttribute('data-color','gray');
+                    flag = false;
+
+
+                }
             }
         }
         if (flag === false) {
@@ -119,9 +141,9 @@ function checkGuess() {
     }
 }
 
-function checkIfLetterExistInWord(letter, wordsLetter, indexToStart) {
+function checkIfLetterExistInWord(letter, wordsLetter) {
     let flag = false;
-    for (let i = indexToStart; i < wordsLetter.length; i++) {
+    for (let i = 0; i < wordsLetter.length; i++) {
         if (wordsLetter[i] === letter) {
             flag = true;
         }
@@ -129,7 +151,6 @@ function checkIfLetterExistInWord(letter, wordsLetter, indexToStart) {
     return flag;
 
 }
-
 
 function deleteLetter() {
     let y = document.querySelector("div[data-state=\"playing\"]").children;
@@ -142,4 +163,39 @@ function deleteLetter() {
     }
 }
 
+function getFitButton(char){
+    const buttons=document.getElementsByTagName("button");
+    let button;
+    for (let i = 0; i < buttons.length; i++) {
+        if (buttons[i].innerHTML===char){
+            button=buttons[i];
+        }
+    }
+    return button;
+}
+
+function isGreen(button){
+    let flag = false;
+   let color = button.getAttribute('data-color');
+    if (color==="green"){
+        flag=true;
+    }
+    return flag;
+
+}
+
+function removeIndexFromArray(array,index){
+    let newArray=new Array();
+    let flag=false;
+    for (let i = 0; i < array.length; i++) {
+        if (array[i]!==index|| flag){
+            newArray.push(array[i]);
+
+        }else {
+            flag=true;
+
+        }
+    }
+    return newArray;
+}
 
