@@ -1,24 +1,21 @@
 const word = randomVocabulary();
 let levelNumber = 1;
+const lastLetter=4;
+const maxLevel=6;
+const semiSecond=500;
 
 
-// function keyboardListener(){
-//     document.addEventListener('keydown', function(event) {
-//         const key = event.key; // const {key} = event; ES6+
-//         if (key === "Backspace") {
-//             // Do something
-//             deleteLetter();
-//         }
-//     });
-//     document.addEventListener('keypress',(event)=>{
-//         let name=event.key;
-//         if (name==="Enter"){
-//             checkGuess();
-//         }else {
-//             insertChar(name);
-//         }
-//     })
-// }
+function randomVocabulary() {
+    document.getElementById('vocabulary');
+    const words = ["מקלדת", "מקלחת", "שולחן", "כביסה", "מנעול", "שריפה", "מדפסת",
+        "רמקול", "חולצה", "מדבקה", "קרפדה", "אכזבה", "מעטפה",
+        "מברשת", "משאית", "מזרון", "מגירה", "שמיכה", "חשיבה", "מנורה"]
+    let randomIndex = Math.ceil(Math.random() * 19);
+    let word = words[randomIndex];
+    return word;
+
+}
+
 function buttonListener() {
     const keyboard = document.getElementsByClassName("keyboard_letter");
     for (let i = 0; i < keyboard.length; i++) {
@@ -47,16 +44,7 @@ function insertChar(char) {
     }
 }
 
-function randomVocabulary() {
-    document.getElementById('vocabulary');
-    const words = ["מקלדת", "מקלחת", "שולחן", "כביסה", "מנעול", "שריפה", "מדפסת",
-        "רמקול", "חולצה", "מדבקה", "קרפדה", "אכזבה", "מעטפה",
-        "מברשת", "משאית", "מזרון", "מגירה", "שמיכה", "חשיבה", "מנורה"]
-    let randomIndex = Math.ceil(Math.random() * 19);
-    let word = words[randomIndex];
-    return word;
 
-}
 
 function level() {
     const level = document.querySelector("div[data-state=\"playing\"]");
@@ -64,33 +52,23 @@ function level() {
     return cells;
 }
 
-function gameLoop() {
-    alert(word);
-    buttonListener();
-//keyboardListener();
 
-}
 
-function checkLength() {
-    const level = document.querySelector("div[data-state=\"playing\"]").children[4];
-    if (level.getAttribute('data-state') === 'empty') {
-        return false;
-    }
-    return true;
+function checkLength(guess) {
+    return guess[lastLetter].getAttribute('data-state') !== 'empty';
 }
 
 function checkGuess() {
-    if (checkLength()) {
+    const guess=document.querySelector("div[data-state=\"playing\"]");
+    const guessLetters = guess.children;
+    if (checkLength(guessLetters)) {
         const wordLetters = word.split("");
-        const guessLetters = document.querySelector("div[data-state=\"playing\"]").children;
         let tempGuessLetters = new Array();
-
-        let flag = true;
         let tempWordLetters = new Array();
+        let flag = true;
         for (let i = 0; i < wordLetters.length; i++) {
             if (guessLetters[i].innerHTML=== wordLetters[i]){
-                guessLetters[i].setAttribute('data-color', 'green');
-                let greenButton=getFitButton(guessLetters[i].innerHTML);
+                let greenButton=getButton(guessLetters[i],"green");
                 greenButton.setAttribute('data-color','green');
             }else {
                 tempWordLetters.push(wordLetters[i]);
@@ -100,45 +78,48 @@ function checkGuess() {
        if (tempGuessLetters.length>0) {
             for (let i = 0; i < tempGuessLetters.length; i++) {
                 if (checkIfLetterExistInWord(tempGuessLetters[i].innerHTML, tempWordLetters)) {
-                    tempGuessLetters[i].setAttribute('data-color', 'yellow');
-                    let yellowButton=getFitButton(tempGuessLetters[i].innerHTML);
-                    if (!isGreen(yellowButton))
+                    let yellowButton=getButton(tempGuessLetters[i],"yellow");
+                    if (!isPainted(yellowButton,"green"))
                     yellowButton.setAttribute('data-color','yellow');
                     flag = false;
-                  //  tempGuessLetters=removeIndexFromArray(tempGuessLetters,tempGuessLetters[i]);
                     tempWordLetters=removeIndexFromArray(tempWordLetters,tempGuessLetters[i].innerHTML);
-
-
                 } else {
-                    tempGuessLetters[i].setAttribute('data-color', 'gray');
-                    let grayButton=getFitButton(tempGuessLetters[i].innerHTML);
-                    if (!isGreen(grayButton))
+
+                    let grayButton=getButton(tempGuessLetters[i],"gray");
+                    if (!isPainted(grayButton,"green")&&!isPainted(grayButton,"yellow"))
                     grayButton.setAttribute('data-color','gray');
                     flag = false;
-
-
                 }
             }
         }
         if (flag === false) {
-            document.querySelector("div[data-state=\"playing\"]").setAttribute('data-state', "finish");
+            guess.setAttribute('data-state', "finish");
             levelNumber++;
-            if (levelNumber > 6) {
-                alert("חלש אחי!");
-                document.location.reload();
+            if (levelNumber > maxLevel) {
+                alertResult("חלש אחי!");
+
             } else {
                 document.getElementById("row" + levelNumber).setAttribute('data-state', "playing");
             }
 
         } else {
-            alert("ניצחת!");
-            document.location.reload();
+            alertResult("סחתיין!");
         }
-
-
     } else {
-        alert("guess is shorter than five letters")
+        alert("הניחוש קצר מ-5 אותיות!")
     }
+}
+function getButton(element,color){
+    element.setAttribute('data-color', color);
+    const buttons=document.getElementsByTagName("button");
+    let button;
+    for (let i = 0; i < buttons.length; i++) {
+        if (buttons[i].innerHTML===element.innerHTML){
+            button=buttons[i];
+        }
+    }
+    return button;
+
 }
 
 function checkIfLetterExistInWord(letter, wordsLetter) {
@@ -153,31 +134,20 @@ function checkIfLetterExistInWord(letter, wordsLetter) {
 }
 
 function deleteLetter() {
-    let y = document.querySelector("div[data-state=\"playing\"]").children;
-    for (let i = 0; i < y.length; i++) {
-        if (i === 4 || y[i].getAttribute('data-state') !== 'empty' && y[i + 1].getAttribute('data-state') === 'empty') {
-            y[i].setAttribute('data-state', 'empty')
-            y[i].innerHTML = "";
+    let row = document.querySelector("div[data-state=\"playing\"]").children;
+    for (let i = 0; i < row.length; i++) {
+        if (i === lastLetter || row[i].getAttribute('data-state') !== 'empty' && row[i + 1].getAttribute('data-state') === 'empty') {
+            row[i].setAttribute('data-state', 'empty')
+            row[i].innerHTML = "";
             return;
         }
     }
 }
 
-function getFitButton(char){
-    const buttons=document.getElementsByTagName("button");
-    let button;
-    for (let i = 0; i < buttons.length; i++) {
-        if (buttons[i].innerHTML===char){
-            button=buttons[i];
-        }
-    }
-    return button;
-}
-
-function isGreen(button){
+function isPainted(button,buttonColor){
     let flag = false;
    let color = button.getAttribute('data-color');
-    if (color==="green"){
+    if (color===buttonColor){
         flag=true;
     }
     return flag;
@@ -198,4 +168,27 @@ function removeIndexFromArray(array,index){
     }
     return newArray;
 }
+function alertResult(print){
+    setTimeout(()=>{
+        alert(print);
+        document.location.reload();
+    },semiSecond);
+}
+// function keyboardListener(){
+//     document.addEventListener('keydown', function(event) {
+//         const key = event.key; // const {key} = event; ES6+
+//         if (key === "Backspace") {
+//             // Do something
+//             deleteLetter();
+//         }
+//     });
+//     document.addEventListener('keypress',(event)=>{
+//         let name=event.key;
+//         if (name==="Enter"){
+//             checkGuess();
+//         }else {
+//             insertChar(name);
+//         }
+//     })
+// }
 

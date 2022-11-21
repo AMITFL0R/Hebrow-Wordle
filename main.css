@@ -6,7 +6,7 @@ div[id="title"]{
     font-family: sans-serif;
 }
 
-div[id="AIUA"] {
+div[id="aiua"] {
     font-size: 20px;
     font-weight: bold;
     text-align: left;
@@ -80,18 +80,27 @@ div[class="square"]{
     font-size: 30px;
     margin-top: 10px;
     border-radius: 10px;
+    border: 1px solid black;
 }
+
+
 div[data-color="green"]{
     background-color: forestgreen;
 }
-/*button[data-color="green"]{*/
-/*    background-color: forestgreen;*/
-/*}*/
-
 div[data-color="yellow"]{
     background-color: darkgoldenrod;
 }
-
 div[data-color="gray"]{
+    background-color: gray;
+}
+
+
+button[data-color="green"]{
+    background-color: forestgreen;
+}
+button[data-color="yellow"]{
+    background-color: darkgoldenrod;
+}
+button[data-color="gray"]{
     background-color: gray;
 }
