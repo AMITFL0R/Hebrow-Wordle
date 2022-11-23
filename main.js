@@ -16,7 +16,7 @@ function randomVocabulary() {
     const words = ["מקלדת", "מקלחת", "שולחן", "כביסה", "מנעול", "שריפה", "מדפסת",
         "רמקול", "חולצה", "מדבקה", "קרפדה", "אכזבה", "מעטפה",
         "מברשת", "משאית", "מזרון", "מגירה", "שמיכה", "חשיבה", "מנורה"]
-    let randomIndex = Math.ceil(Math.random() * numOfWords);
+    let randomIndex = Math.ceil(Math.random() * (words.length-1));
     let word = words[randomIndex];
     return word;
 }
