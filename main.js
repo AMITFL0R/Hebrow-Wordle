@@ -3,7 +3,7 @@ let levelNumber = 1;
 const lastLetter=4;
 const maxLevel=6;
 const semiSecond=500;
-const numOfWords=19;
+
 
 function game(){
     word=randomVocabulary();
